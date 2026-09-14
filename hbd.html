@@ -1,0 +1,64 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <meta name="theme-color" content="#140d20"> <title>Birthday Wish</title> <style> :root { --bg-1: #140d20; --bg-2: #3b174c; --card: rgba(255, 255, 255, 0.12); --line: rgba(255, 255, 255, 0.24); --text: #ffffff; --muted: rgba(255, 255, 255, 0.74); --accent: #ffcf73; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+body { margin: 0px; min-height: 100svh; color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: radial-gradient(circle at 10% 8%, rgba(255, 175, 77, 0.42), transparent 28%), radial-gradient(circle at 87% 20%, rgba(255, 93, 167, 0.36), transparent 30%), radial-gradient(circle at 48% 100%, rgba(126, 97, 255, 0.30), transparent 37%), linear-gradient(140deg, var(--bg-1), var(--bg-2)); overflow: hidden; }
+.sparkles, .sparkles::before, .sparkles::after { position: absolute; inset: 0px; pointer-events: none; content: ""; background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0px, rgba(255, 255, 255, 0.85) 1px, transparent 1.5px), radial-gradient(circle, rgba(255, 207, 115, 0.95) 0px, rgba(255, 207, 115, 0.95) 1.5px, transparent 2px), radial-gradient(circle, rgba(255, 255, 255, 0.65) 0px, rgba(255, 255, 255, 0.65) 1px, transparent 1.5px); background-size: 95px 95px, 137px 137px, 181px 181px; background-position: 0px 0px, 42px 22px, 10px 66px; opacity: 0.45; }
+.sparkles::before { transform: translate(30px, 20px); opacity: 0.25; }
+.sparkles::after { transform: translate(-22px, 36px); opacity: 0.18; }
+.app { min-height: 100svh; width: min(100%, 560px); margin: 0px auto; padding: max(24px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom)); display: grid; grid-template-rows: auto 1fr auto; gap: 18px; position: relative; z-index: 1; }
+.progress { display: flex; gap: 5px; position: absolute; top: max(10px, env(safe-area-inset-top)); left: 18px; right: 18px; z-index: 4; }
+.bar { height: 3px; flex: 1 1 0%; border-radius: 99px; background: rgba(255, 255, 255, 0.26); overflow: hidden; }
+.bar > i { display: block; width: 0%; height: 100%; background: rgb(255, 255, 255); border-radius: inherit; transition: width 0.25s ease-out; }
+.bar.done > i { width: 100%; }
+.bar.current > i { width: 100%; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.profile { display: flex; align-items: center; gap: 10px; min-width: 0px; }
+.avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: linear-gradient(135deg, rgb(255, 207, 115), rgb(255, 109, 169)); box-shadow: rgba(0, 0, 0, 0.22) 0px 8px 24px; }
+.profile-text { min-width: 0px; }
+.profile-text strong, .profile-text span { display: block; }
+.profile-text strong { font-size: 0.95rem; letter-spacing: -0.01em; }
+.profile-text span { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+.counter { font-size: 0.82rem; color: var(--muted); white-space: nowrap; font-weight: 500; letter-spacing: 0.04em; }
+.stage { display: grid; place-items: center; min-height: 0px; position: relative; touch-action: pan-y; }
+.tap-zone { position: absolute; inset: 0px; display: grid; grid-template-columns: 1fr 1fr; z-index: 5; cursor: pointer; }
+.tap-zone span { width: 100%; height: 100%; display: block; }
+.slide { width: 100%; min-height: clamp(390px, 62svh, 610px); padding: 42px 28px 30px; border: 1px solid var(--line); border-radius: 32px; background: linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.06)); box-shadow: rgba(0, 0, 0, 0.3) 0px 24px 70px, rgba(255, 255, 255, 0.18) 0px 1px 0px inset; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
+.slide.animate-enter { animation: enter 0.36s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes enter { 0% { opacity: 0; transform: translateY(14px) scale(0.98); } 100% { opacity: 1; transform: translateY(0px) scale(1); } }
+.emoji { font-size: clamp(3.2rem, 12vw, 5.2rem); line-height: 1; margin-bottom: 22px; filter: drop-shadow(rgba(0, 0, 0, 0.22) 0px 10px 14px); }
+h1, p { margin: 0px; }
+h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.9rem, 7.5vw, 3rem); letter-spacing: -0.035em; line-height: 1.1; max-width: 14ch; }
+.message { font-size: clamp(1.1rem, 4.2vw, 1.45rem); line-height: 1.45; max-width: 26ch; font-weight: 500; margin-top: 20px; }
+.message em { color: var(--accent); font-style: normal; font-weight: 700; }
+.footer { display: grid; gap: 14px; position: relative; z-index: 6; }
+.hint { margin: 0px; color: var(--muted); text-align: center; font-size: 0.82rem; min-height: 1.2em; }
+.controls { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 10px; }
+button { border: 1px solid var(--line); border-radius: 16px; padding: 14px 10px; color: var(--text); font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; background: rgba(255, 255, 255, 0.1); transition: transform 0.16s, background 0.16s, opacity 0.16s; }
+button:hover { background: rgba(255, 255, 255, 0.18); }
+button:active { transform: scale(0.97); }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+button.primary { border: 0px; color: rgb(53, 32, 10); background: linear-gradient(135deg, rgb(255, 230, 168), rgb(255, 191, 88)); }
+button:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+@media (max-width: 390px) { .app { padding-left: 14px; padding-right: 14px; } .progress { left: 14px; right: 14px; } .slide { border-radius: 26px; padding: 32px 18px 24px; } } </style> </head> <body> <div class="sparkles" aria-hidden="true"></div> <main class="app" aria-label="Interactive birthday wish"> <div class="progress" id="progress" aria-hidden="true"></div>
+<header class="top"> <div class="profile"> <div class="avatar" aria-hidden="true">🎂</div> <div class="profile-text"> <strong>A birthday note</strong> <span>Made with love</span> </div> </div> <div class="counter" id="counter">1 / 13</div> </header>
+<section class="stage" id="stage" aria-live="polite"> <div class="tap-zone" aria-label="Tap left to go back, tap right to continue"> <span id="backZone" title="Previous slide"></span> <span id="nextZone" title="Next slide"></span> </div> <article class="slide animate-enter" id="slide"> <div class="emoji" id="slideEmoji">🎉🎂✨</div> <h1 id="slideTitle">Happy Birthday!</h1> <p class="message" id="slideMessage">A little wish, made especially for you.</p> </article> </section>
+<footer class="footer"> <p class="hint" id="hint">Tap the right side or use Next to continue</p> <div class="controls"> <button type="button" id="prev" aria-label="Previous slide" disabled>← Back</button> <button type="button" class="primary" id="next">Next →</button> <button type="button" id="restart" aria-label="Restart message">↻ Restart</button> </div> </footer> </main>
+<script> const slidesData = [ { emoji: "🎉🎂✨", title: "Happy Birthday!", message: "A little wish, made <em>especially</em> for you." }, { emoji: "🌟💫", title: "Another Year Brighter", message: "May your day be filled with <em>unforgettable</em> smiles and pure happiness." }, { emoji: "🎈🍰", title: "Make A Wish", message: "Take a deep breath, close your eyes, and dream as <em>big</em> as you can." }, { emoji: "💖✨", title: "Grateful For You", message: "Thank you for bringing so much <em>warmth</em>, kindness, and light everywhere you go." }, { emoji: "🚀🌈", title: "New Chapters Ahead", message: "May this upcoming year open doors to <em>bold adventures</em> and exciting breakthroughs." }, { emoji: "🥳🥂", title: "Cheers to Today", message: "Forget deadlines and everyday rush—today is 100% <em>your celebration</em>." }, { emoji: "🎁🧸", title: "Treasured Moments", message: "May every moment today feel like an answered prayer and a <em>cozy memory</em>." }, { emoji: "🌿☕", title: "Peace & Joy", message: "Wishing you calm mornings, easy laughter, and <em>peace of mind</em> all year long." }, { emoji: "🎨🌻", title: "Keep Inspiring", message: "Never stop being the uniquely <em>creative and radiant</em> soul you are." }, { emoji: "💃🕺🎶", title: "Turn Up the Music", message: "Dance like no one is watching and enjoy every beat of <em>today</em>." }, { emoji: "🍀🔮", title: "Good Luck Everywhere", message: "May luck, good health, and success favor you in <em>every single step</em>." }, { emoji: "🤗💌", title: "Surrounded by Love", message: "Remember you are deeply valued, admired, and <em>loved</em> by those around you." }, { emoji: "👑🎂🥳", title: "Have the Best Day!", message: "Happy Birthday once again! Make today <em>truly extraordinary</em>! ✨" } ];
+let currentIndex = 0; const totalSlides = slidesData.length;
+const progressContainer = document.getElementById("progress"); const counterEl = document.getElementById("counter"); const slideEmoji = document.getElementById("slideEmoji"); const slideTitle = document.getElementById("slideTitle"); const slideMessage = document.getElementById("slideMessage"); const slideEl = document.getElementById("slide"); const prevBtn = document.getElementById("prev"); const nextBtn = document.getElementById("next"); const restartBtn = document.getElementById("restart"); const backZone = document.getElementById("backZone"); const nextZone = document.getElementById("nextZone"); const hintEl = document.getElementById("hint");
+// Initialize progress bars function initProgressBars() { progressContainer.innerHTML = ""; for (let i = 0; i < totalSlides; i++) { const bar = document.createElement("span"); bar.className = "bar"; bar.innerHTML = "<i></i>"; progressContainer.appendChild(bar); } }
+function renderSlide(index) { const data = slidesData[index];
+// Re-trigger slide animation slideEl.classList.remove("animate-enter"); void slideEl.offsetWidth; // Trigger reflow slideEl.classList.add("animate-enter");
+slideEmoji.textContent = data.emoji; slideTitle.textContent = data.title; slideMessage.innerHTML = data.message;
+// Update counter counterEl.textContent = ${index + 1} / ${totalSlides};
+// Update progress bars const bars = progressContainer.querySelectorAll(".bar"); bars.forEach((bar, i) => { bar.classList.remove("done", "current"); if (i < index) { bar.classList.add("done"); } else if (i === index) { bar.classList.add("current"); } });
+// Update controls prevBtn.disabled = index === 0; if (index === totalSlides - 1) { nextBtn.textContent = "Done 🎉"; hintEl.textContent = "You've reached the end! Tap restart anytime."; } else { nextBtn.textContent = "Next →"; hintEl.textContent = "Tap the right side or use Next to continue"; } }
+function goNext() { if (currentIndex < totalSlides - 1) { currentIndex++; renderSlide(currentIndex); } }
+function goPrev() { if (currentIndex > 0) { currentIndex--; renderSlide(currentIndex); } }
+function restart() { currentIndex = 0; renderSlide(currentIndex); }
+// Event Listeners nextBtn.addEventListener("click", goNext); prevBtn.addEventListener("click", goPrev); restartBtn.addEventListener("click", restart); nextZone.addEventListener("click", goNext); backZone.addEventListener("click", goPrev);
+// Keyboard navigation window.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); goNext(); } else if (e.key === "ArrowLeft") { e.preventDefault(); goPrev(); } });
+// Touch swipe gestures let touchStartX = 0; let touchEndX = 0;
+window.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+window.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, { passive: true });
+function handleSwipe() { const swipeDistance = touchEndX - touchStartX; if (Math.abs(swipeDistance) > 45) { if (swipeDistance < 0) { goNext(); } else { goPrev(); } } }
+// Initialize initProgressBars(); renderSlide(currentIndex); </script> </body> </html>
